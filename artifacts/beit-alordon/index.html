@@ -19,6 +19,22 @@
     <meta property="twitter:description" content="أنظمة تكييف مركزي متكاملة وفتحات كور بدقة ألمانية." />
     <meta property="twitter:image" content="/images/site-logo.png" />
     <link rel="icon" type="image/png" href="/images/site-logo.png?v=2" />
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#FF6B35" />
+    <link rel="apple-touch-icon" href="/images/site-logo.png" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('SW Registered', reg);
+          }).catch(err => {
+            console.log('SW Error', err);
+          });
+        });
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
