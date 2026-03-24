@@ -14,24 +14,41 @@ import ProjectDetail from "@/pages/ProjectDetail";
 import Booking from "@/pages/Booking";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
+import AdminLogin from "@/pages/Admin";
+import Dashboard from "@/pages/Dashboard";
+import CompanyEditor from "@/pages/CompanyEditor";
+import ServicesManager from "@/pages/ServicesManager";
+import ProjectsManager from "@/pages/ProjectsManager";
 
 const queryClient = new QueryClient();
 
 function Router() {
   return (
-    <Layout>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/services" component={Services} />
-        <Route path="/services/:id" component={ServiceDetail} />
-        <Route path="/projects" component={Projects} />
-        <Route path="/projects/:id" component={ProjectDetail} />
-        <Route path="/booking" component={Booking} />
-        <Route path="/contact" component={Contact} />
-        <Route component={NotFound} />
-      </Switch>
-    </Layout>
+    <Switch>
+      {/* Admin Routes */}
+      <Route path="/admin" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={Dashboard} />
+      <Route path="/admin/company" component={CompanyEditor} />
+      <Route path="/admin/services" component={ServicesManager} />
+      <Route path="/admin/projects" component={ProjectsManager} />
+      
+      {/* Public Routes with Layout */}
+      <Route>
+        <Layout>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/services" component={Services} />
+            <Route path="/services/:id" component={ServiceDetail} />
+            <Route path="/projects" component={Projects} />
+            <Route path="/projects/:id" component={ProjectDetail} />
+            <Route path="/booking" component={Booking} />
+            <Route path="/contact" component={Contact} />
+            <Route component={NotFound} />
+          </Switch>
+        </Layout>
+      </Route>
+    </Switch>
   );
 }
 

@@ -62,7 +62,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden">
               <img 
-                src={`${import.meta.env.BASE_URL}images/logo.png`} 
+                src={COMPANY_INFO.logo} 
                 alt="Logo" 
                 className="absolute inset-0 w-full h-full object-cover p-1 group-hover:scale-110 transition-transform duration-500"
               />
@@ -161,8 +161,8 @@ export function Layout({ children }: { children: ReactNode }) {
             
             <div className="col-span-1 lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                 <div className="w-10 h-10 bg-white rounded-lg p-1">
-                   <img src={`${import.meta.env.BASE_URL}images/logo.png`} alt="Logo" className="w-full h-full object-contain" />
+                 <div className="w-10 h-10 bg-white rounded-lg p-1 overflow-hidden shrink-0">
+                   <img src={COMPANY_INFO.logo} alt="Logo" className="w-full h-full object-cover" />
                  </div>
                  <span className="font-display font-bold text-2xl text-white">بيت الأردن</span>
               </div>
@@ -207,7 +207,15 @@ export function Layout({ children }: { children: ReactNode }) {
           
           <div className="border-t border-secondary-foreground/20 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-secondary-foreground/60">
             <p>© {new Date().getFullYear()} مصنع بيت الأردن للتكييف المركزي. جميع الحقوق محفوظة.</p>
-            <p className="mt-2 md:mt-0">صُنع بإتقان في الأردن</p>
+            <p className="mt-2 text-center md:mt-0 md:text-left flex items-center gap-1.5 flex-wrap justify-center">
+              <span>تمت البرمجة بواسطة</span>
+              <a 
+                href="#"
+                className="font-bold text-white hover:text-primary transition-colors hover:underline underline-offset-4"
+              >
+                الخطيب للبرمجيات
+              </a>
+            </p>
           </div>
         </div>
       </footer>

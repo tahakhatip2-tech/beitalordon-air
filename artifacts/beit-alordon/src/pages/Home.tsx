@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, Zap } from "lucide-react";
-import { SERVICES, PROJECTS, STATS } from "@/lib/data";
+import { SERVICES, PROJECTS, STATS, COMPANY_INFO } from "@/lib/data";
 import { useState, useEffect, useCallback } from "react";
 
 const HERO_SLIDES = [
@@ -11,7 +11,7 @@ const HERO_SLIDES = [
     title: "رواد التكييف المركزي",
     titleHighlight: "وأنظمة التهوية",
     description: "في مصنع بيت الأردن، نجمع بين الدقة الهندسية وأعلى معايير الجودة لتنفيذ مشاريع التكييف للقطاعات التجارية والسكنية.",
-    image: "https://images.unsplash.com/photo-1621213038663-d142171120eb?w=1600&q=85",
+    image: "/images/hero-chiller.png",
     accent: "#FF6B35",
     cta: { label: "احجز استشارة مجانية", href: "/booking" },
     cta2: { label: "تصفح خدماتنا", href: "/services" },
@@ -23,7 +23,7 @@ const HERO_SLIDES = [
     title: "أنظمة تكييف مركزي",
     titleHighlight: "بأحدث التقنيات",
     description: "نصمم وننفذ أنظمة VRF وChiller للفنادق والمستشفيات والمولات بكفاءة طاقة عالية وأداء موثوق على مدار الساعة.",
-    image: "https://images.unsplash.com/photo-1594951664366-2342817457cb?w=1600&q=85",
+    image: "/images/hero-vrf.png",
     accent: "#FF6B35",
     cta: { label: "اكتشف الخدمة", href: "/services/central-ac" },
     cta2: { label: "احجز استشارة", href: "/booking" },
@@ -35,7 +35,7 @@ const HERO_SLIDES = [
     title: "حفر خرساني دقيق",
     titleHighlight: "بمعدات ألمانية",
     description: "خدمة فتحات الكور بتقنية Core Drilling المتطورة — حفر بدون اهتزازات يضر بالبنية التحتية، بمقاسات دقيقة حسب احتياج مشروعك.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=85",
+    image: "/images/hero-core.png",
     accent: "#1E3A8A",
     cta: { label: "اكتشف الخدمة", href: "/services/core-holes" },
     cta2: { label: "احجز استشارة", href: "/booking" },
@@ -46,8 +46,8 @@ const HERO_SLIDES = [
     tag: "أنظمة الدكت",
     title: "تصنيع وتركيب",
     titleHighlight: "مجاري الهواء",
-    description: "مصنعنا مجهز بأحدث ماكينات تشكيل الصاج المجلفن لتصنيع الدكت بمواصفات عالمية مع عزل حراري وصوتي متكامل.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85",
+    description: "تصنيع وتركيب مجاري الهواء (الدكت) من الصاج المجلفن بأفضل المكائن الحديثة لضمان عزل مميز وتدفق هواء انسيابي.",
+    image: "/images/hero-duct.png",
     accent: "#FF6B35",
     cta: { label: "اكتشف الخدمة", href: "/services/duct-systems" },
     cta2: { label: "احجز استشارة", href: "/booking" },
@@ -382,7 +382,10 @@ export default function Home() {
                       className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-600"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    <div className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    <div className="absolute top-4 left-4 w-12 h-12 rounded-xl overflow-hidden bg-white/95 backdrop-blur-md p-1.5 shadow-xl border border-white/20 z-10 transition-transform duration-300 group-hover:scale-105">
+                      <img src={COMPANY_INFO.logo} alt="Logo" className="w-full h-full object-cover rounded-md" />
+                    </div>
+                    <div className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm z-10">
                       خدمة
                     </div>
                   </div>
@@ -579,8 +582,11 @@ export default function Home() {
                       <p className="text-white/75 mt-2 line-clamp-2 text-sm">{project.description}</p>
                     )}
                   </div>
-                  <div className="absolute top-4 left-4 w-9 h-9 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1">
-                    <ArrowLeft className="w-4 h-4 text-white" />
+                  <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/20 border border-white/40 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 z-20">
+                    <ArrowLeft className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="absolute top-4 right-4 w-12 h-12 rounded-xl overflow-hidden bg-white/95 backdrop-blur-md p-1.5 shadow-xl border border-white/20 z-10 transition-transform duration-300 group-hover:scale-105">
+                    <img src={COMPANY_INFO.logo} alt="Logo" className="w-full h-full object-cover rounded-md" />
                   </div>
                 </Link>
               </motion.div>

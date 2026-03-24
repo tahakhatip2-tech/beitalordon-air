@@ -1,11 +1,27 @@
 // Hardcoded JSON data to power the static frontend
 
-export const COMPANY_INFO = {
+const isBrowser = typeof window !== "undefined";
+const getStoredData = () => {
+  if (isBrowser) {
+    const stored = localStorage.getItem("beit-alordon-admin-data");
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {}
+    }
+  }
+  return null;
+};
+
+const storedData = getStoredData();
+
+export const COMPANY_INFO = storedData?.company || {
   name: "بيت الأردن للتكييف المركزي",
   address: "دوار الياسمين، عمّان، الأردن",
   hours: "السبت إلى الخميس، 8:00 صباحاً - 6:00 مساءً",
-  phone: "962700000000",
+  phone: "0795215525",
   email: "info@beitalordon.com",
+  logo: "/images/site-logo.png",
 };
 
 export const SERVICES = [
@@ -15,7 +31,7 @@ export const SERVICES = [
     shortDesc: "أنظمة تكييف متطورة للمباني الكبيرة والمرافق التجارية.",
     longDesc: "نقدم حلول تكييف مركزي متكاملة تعتمد على أحدث التقنيات لضمان توزيع مثالي للهواء وتوفير استهلاك الطاقة. نستخدم أجهزة ذات كفاءة عالية تتناسب مع متطلبات المباني الكبيرة، الفنادق، والمستشفيات.",
     icon: "Fan",
-    coverImage: "https://images.unsplash.com/photo-1621213038663-d142171120eb?w=800&q=80",
+    coverImage: "/images/hero-chiller.png",
     images: [
       "https://images.unsplash.com/photo-1621213038663-d142171120eb?w=1200&q=80",
       "https://images.unsplash.com/photo-1594951664366-2342817457cb?w=1200&q=80",
@@ -28,7 +44,7 @@ export const SERVICES = [
     shortDesc: "خدمات تخريم وحفر خرساني بدقة عالية لجميع التمديدات.",
     longDesc: "خدمة فتحات الكور (Core Drilling) باستخدام معدات ألمانية دقيقة لحفر الخرسانة المسلحة بدون اهتزازات تؤثر على البنية التحتية، لتمرير مواسير التكييف والتهوية.",
     icon: "Drill",
-    coverImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    coverImage: "/images/hero-core.png",
     images: [
       "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80",
       "https://images.unsplash.com/photo-1533481405265-e9ce0c044abb?w=1200&q=80"
@@ -40,7 +56,7 @@ export const SERVICES = [
     shortDesc: "تصنيع وتركيب مجاري الهواء (الدكت) بمواصفات عالمية.",
     longDesc: "مصنعنا مزود بأحدث ماكينات تشكيل الصاج المجلفن لتصنيع الدكت بأشكال ومقاسات دقيقة تلبي احتياجات المشاريع كافة مع توفير العزل الحراري والصوتي اللازم.",
     icon: "AlignVerticalJustifyStart",
-    coverImage: "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=800&q=80",
+    coverImage: "/images/hero-duct.png",
     images: [
       "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=1200&q=80",
       "https://images.unsplash.com/photo-1508605330364-55cbfbdc1221?w=1200&q=80"
