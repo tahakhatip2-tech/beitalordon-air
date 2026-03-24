@@ -107,11 +107,9 @@ export const PROJECTS = [
     client: "مجموعة الفنادق الوطنية",
     date: "أغسطس 2023",
     description: "تم تنفيذ وتصميم نظام تكييف مركزي متكامل يخدم أكثر من 300 غرفة فندقية بالإضافة إلى صالات الأفراح والمطاعم، مع استخدام نظام إدارة المباني الذكي (BMS).",
-    coverImage: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",
+    coverImage: "/images/project-hotel.png",
     images: [
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80",
-      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1200&q=80",
-      "https://images.unsplash.com/photo-1542314831-c53cd3816002?w=1200&q=80"
+      "/images/project-hotel.png"
     ]
   },
   {
@@ -120,10 +118,9 @@ export const PROJECTS = [
     client: "شركة الاستثمارات العقارية",
     date: "مارس 2024",
     description: "توريد وتركيب شبكات الدكت ومبردات الهواء لخدمة مساحات تجارية تزيد عن 50 ألف متر مربع، لضمان بيئة تسوق منعشة ومريحة.",
-    coverImage: "https://images.unsplash.com/photo-1519567281799-9721ebbfcc4d?w=800&q=80",
+    coverImage: "/images/hero-chiller.png",
     images: [
-      "https://images.unsplash.com/photo-1519567281799-9721ebbfcc4d?w=1200&q=80",
-      "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?w=1200&q=80"
+      "/images/hero-chiller.png"
     ]
   },
   {
@@ -132,10 +129,9 @@ export const PROJECTS = [
     client: "الأفق للتطوير العمراني",
     date: "يناير 2024",
     description: "تنفيذ أنظمة التكييف المخفي (VRF) المتطورة لجميع الشقق السكنية في البرج، مما يوفر تحكماً دقيقاً لدرجات الحرارة لكل غرفة بشكل مستقل.",
-    coverImage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+    coverImage: "/images/hero-vrf.png",
     images: [
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
-      "https://images.unsplash.com/photo-1448630360428-65456885c650?w=1200&q=80"
+      "/images/hero-vrf.png"
     ]
   },
   {
@@ -144,10 +140,9 @@ export const PROJECTS = [
     client: "وزارة الصحة (تعاقد خاص)",
     date: "أكتوبر 2023",
     description: "تركيب أنظمة تهوية وتكييف طبية متخصصة (HEPA Filters) لغرف العمليات والعناية الحثيثة لضمان تنقية هواء بنسبة 99.99%.",
-    coverImage: "https://images.unsplash.com/photo-1587560699334-bea93391dcef?w=800&q=80",
+    coverImage: "/images/hero-duct.png",
     images: [
-      "https://images.unsplash.com/photo-1587560699334-bea93391dcef?w=1200&q=80",
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80"
+      "/images/hero-duct.png"
     ]
   }
 ];
