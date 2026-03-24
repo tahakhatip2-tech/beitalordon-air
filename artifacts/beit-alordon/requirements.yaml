@@ -1,0 +1,19 @@
+packages:
+  "framer-motion": "For premium page transitions and scroll reveals"
+  "react-hook-form": "For robust form handling in the booking/contact sections"
+  "@hookform/resolvers": "Zod validation resolver for forms"
+  "clsx": "Utility for conditionally joining classNames"
+  "tailwind-merge": "Utility for merging tailwind classes without style conflicts"
+
+images:
+  - path: "artifacts/beit-alordon/public/images/logo.png"
+    description: "Minimalist, modern, and professional logo mark for a central air conditioning and HVAC factory. Geometric shapes combining a snowflake (cooling) and airflow/ducts. Deep blue and vibrant orange colors on a transparent background."
+    aspect_ratio: "1:1"
+  - path: "artifacts/beit-alordon/public/images/hero-pattern.png"
+    description: "Abstract architectural blueprint and airflow lines pattern. Deep navy blue background with subtle glowing orange accents. Professional industrial aesthetic."
+    aspect_ratio: "16:9"
+
+notes:
+  - No backend connected; fully static frontend relying on hardcoded JSON data for services and projects.
+  - The booking form integrates directly with WhatsApp via wa.me URL generation instead of an API call.
+  - Layout is strictly RTL (Arabic) throughout the app.

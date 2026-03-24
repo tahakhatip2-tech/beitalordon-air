@@ -48,6 +48,18 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 - `pnpm run build` — runs `typecheck` first, then recursively runs `build` in all packages that define it
 - `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
 
+## Artifacts
+
+### `artifacts/beit-alordon` (`@workspace/beit-alordon`)
+
+Professional Arabic RTL website for "بيت الأردن للتكييف المركزي" (Beit Al-Ordon Central Air Conditioning Factory).
+
+- React + Vite frontend-only app at previewPath `/`
+- Full Arabic (RTL) layout using Cairo & Tajawal fonts
+- Orange (#FF6B35) and Blue (#1E3A8A) color scheme
+- Pages: Home, About, Services, Service Detail, Projects, Project Detail, Booking (WhatsApp), Contact
+- Dependencies: framer-motion, react-hook-form, @hookform/resolvers, wouter
+
 ## Packages
 
 ### `artifacts/api-server` (`@workspace/api-server`)
