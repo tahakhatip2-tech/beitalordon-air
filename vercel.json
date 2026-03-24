@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @workspace/beit-alordon run build",
+  "outputDirectory": "artifacts/beit-alordon/dist/public",
+  "framework": "vite"
+}
