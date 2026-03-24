@@ -19,6 +19,7 @@ import Dashboard from "@/pages/Dashboard";
 import CompanyEditor from "@/pages/CompanyEditor";
 import ServicesManager from "@/pages/ServicesManager";
 import ProjectsManager from "@/pages/ProjectsManager";
+import BookingsManager from "@/pages/admin/BookingsManager";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/admin/company" component={CompanyEditor} />
       <Route path="/admin/services" component={ServicesManager} />
       <Route path="/admin/projects" component={ProjectsManager} />
+      <Route path="/admin/bookings" component={BookingsManager} />
       
       {/* Public Routes with Layout */}
       <Route>

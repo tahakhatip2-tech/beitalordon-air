@@ -26,6 +26,17 @@ export default function Booking() {
   });
 
   const onSubmit = (data: BookingFormValues) => {
+    // Save to localStorage for Admin view
+    const newBooking = {
+      ...data,
+      id: Date.now(),
+      dateAt: new Date().toLocaleString('ar-JO'),
+      status: 'جديد'
+    };
+    
+    const existingBookings = JSON.parse(localStorage.getItem('beit_alordon_bookings') || '[]');
+    localStorage.setItem('beit_alordon_bookings', JSON.stringify([newBooking, ...existingBookings]));
+
     // Generate WhatsApp Message
     const msg = `مرحباً، أود حجز خدمة:%0A*الاسم:* ${data.name}%0A*الهاتف:* ${data.phone}%0A*الخدمة المطلوبة:* ${data.service}${data.description ? `%0A*الوصف/الملاحظات:* ${data.description}` : ''}`;
     
