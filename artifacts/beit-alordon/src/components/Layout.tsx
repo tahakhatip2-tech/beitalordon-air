@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, MapPin, Clock, ArrowLeft, Airplay } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { COMPANY_INFO } from "@/lib/data";
+import { FloatingWidgets } from "@/components/FloatingWidgets";
 
 const NAV_LINKS = [
   { href: "/", label: "الرئيسية" },
@@ -149,6 +150,9 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-grow">
         {children}
       </main>
+
+      {/* Floating Widgets: WhatsApp + Chat */}
+      <FloatingWidgets />
 
       {/* Footer */}
       <footer className="bg-secondary text-secondary-foreground pt-16 pb-8 border-t-4 border-primary">
