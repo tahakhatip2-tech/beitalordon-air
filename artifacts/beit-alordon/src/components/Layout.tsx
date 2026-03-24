@@ -35,7 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground" dir="rtl">
       {/* Top Bar */}
-      <div className="hidden md:flex bg-secondary text-secondary-foreground py-2 px-4 sm:px-6 lg:px-8 text-sm items-center justify-between">
+      <div className="hidden md:flex bg-secondary text-secondary-foreground py-2 px-4 sm:px-6 lg:px-8 text-sm items-center justify-between relative z-[70]">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-primary" />
@@ -54,7 +54,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
       {/* Main Navbar */}
       <header 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`sticky top-0 z-[70] transition-all duration-300 ${
           isScrolled ? "bg-white/90 backdrop-blur-md shadow-md py-3" : "bg-white py-5"
         }`}
       >
