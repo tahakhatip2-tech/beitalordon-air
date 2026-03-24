@@ -1,7 +1,305 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Factory, Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, Zap } from "lucide-react";
 import { SERVICES, PROJECTS, STATS } from "@/lib/data";
+import { useState, useEffect, useCallback } from "react";
+
+const HERO_SLIDES = [
+  {
+    id: "intro",
+    tag: "الخيار الأول في الأردن",
+    title: "رواد التكييف المركزي",
+    titleHighlight: "وأنظمة التهوية",
+    description: "في مصنع بيت الأردن، نجمع بين الدقة الهندسية وأعلى معايير الجودة لتنفيذ مشاريع التكييف للقطاعات التجارية والسكنية.",
+    image: "https://images.unsplash.com/photo-1621213038663-d142171120eb?w=1600&q=85",
+    accent: "#FF6B35",
+    cta: { label: "احجز استشارة مجانية", href: "/booking" },
+    cta2: { label: "تصفح خدماتنا", href: "/services" },
+    badge: "+15 عاماً من الخبرة",
+  },
+  {
+    id: "central-ac",
+    tag: "تكييف مركزي",
+    title: "أنظمة تكييف مركزي",
+    titleHighlight: "بأحدث التقنيات",
+    description: "نصمم وننفذ أنظمة VRF وChiller للفنادق والمستشفيات والمولات بكفاءة طاقة عالية وأداء موثوق على مدار الساعة.",
+    image: "https://images.unsplash.com/photo-1594951664366-2342817457cb?w=1600&q=85",
+    accent: "#FF6B35",
+    cta: { label: "اكتشف الخدمة", href: "/services/central-ac" },
+    cta2: { label: "احجز استشارة", href: "/booking" },
+    badge: "VRF · Chiller · BMS",
+  },
+  {
+    id: "core-holes",
+    tag: "فتحات الكور",
+    title: "حفر خرساني دقيق",
+    titleHighlight: "بمعدات ألمانية",
+    description: "خدمة فتحات الكور بتقنية Core Drilling المتطورة — حفر بدون اهتزازات يضر بالبنية التحتية، بمقاسات دقيقة حسب احتياج مشروعك.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=85",
+    accent: "#1E3A8A",
+    cta: { label: "اكتشف الخدمة", href: "/services/core-holes" },
+    cta2: { label: "احجز استشارة", href: "/booking" },
+    badge: "دقة ميليمترية",
+  },
+  {
+    id: "duct-systems",
+    tag: "أنظمة الدكت",
+    title: "تصنيع وتركيب",
+    titleHighlight: "مجاري الهواء",
+    description: "مصنعنا مجهز بأحدث ماكينات تشكيل الصاج المجلفن لتصنيع الدكت بمواصفات عالمية مع عزل حراري وصوتي متكامل.",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85",
+    accent: "#FF6B35",
+    cta: { label: "اكتشف الخدمة", href: "/services/duct-systems" },
+    cta2: { label: "احجز استشارة", href: "/booking" },
+    badge: "مواصفات عالمية",
+  },
+  {
+    id: "commercial",
+    tag: "مشاريع تجارية",
+    title: "حلول تكييف",
+    titleHighlight: "للقطاع التجاري",
+    description: "نُنفذ أنظمة التكييف المركزية للمولات التجارية والفنادق والمكاتب بأعلى معايير الجودة وأقل مستوى من الضوضاء.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85",
+    accent: "#1E3A8A",
+    cta: { label: "شاهد مشاريعنا", href: "/projects" },
+    cta2: { label: "احجز استشارة", href: "/booking" },
+    badge: "+250 مشروع منجز",
+  },
+  {
+    id: "residential",
+    tag: "مشاريع سكنية",
+    title: "تكييف فاخر",
+    titleHighlight: "للفلل والمجمعات",
+    description: "نصمم أنظمة التكييف المخفي للفلل والمنازل الراقية، مما يحافظ على جمالية الديكور مع توفير أقصى درجات الراحة والتبريد.",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85",
+    accent: "#FF6B35",
+    cta: { label: "شاهد مشاريعنا", href: "/projects" },
+    cta2: { label: "احجز استشارة", href: "/booking" },
+    badge: "تصميم مخفي فاخر",
+  },
+];
+
+const slideVariants = {
+  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? -80 : 80 }),
+  center: { opacity: 1, x: 0 },
+  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? 80 : -80 }),
+};
+
+const textVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.12, duration: 0.5 } }),
+};
+
+function HeroSlider() {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
+
+  const goTo = useCallback((idx: number, dir: number) => {
+    setDirection(dir);
+    setCurrent(idx);
+  }, []);
+
+  const prev = () => {
+    const idx = (current - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+    goTo(idx, -1);
+  };
+
+  const next = useCallback(() => {
+    const idx = (current + 1) % HERO_SLIDES.length;
+    goTo(idx, 1);
+  }, [current, goTo]);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(next, 5500);
+    return () => clearInterval(timer);
+  }, [next, paused]);
+
+  const slide = HERO_SLIDES[current];
+
+  return (
+    <section
+      className="relative h-[92vh] min-h-[560px] max-h-[860px] overflow-hidden bg-secondary"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Background slides */}
+      <AnimatePresence initial={false} custom={direction} mode="sync">
+        <motion.div
+          key={slide.id + "-bg"}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
+          className="absolute inset-0"
+        >
+          <img
+            src={slide.image}
+            alt={slide.title}
+            className="w-full h-full object-cover"
+          />
+          {/* Multi-layer gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-black/50 to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          {/* Colored accent bar at bottom */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-1 transition-all duration-700"
+            style={{ background: `linear-gradient(to left, ${slide.accent}, transparent)` }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex items-center">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={slide.id + "-text"}
+              custom={direction}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
+              className="max-w-3xl space-y-6"
+            >
+              {/* Tag */}
+              <motion.div custom={0} variants={textVariants}>
+                <span
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold text-white border border-white/30 backdrop-blur-sm"
+                  style={{ background: `${slide.accent}33` }}
+                >
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: slide.accent }} />
+                  {slide.tag}
+                </span>
+              </motion.div>
+
+              {/* Title */}
+              <motion.h1
+                custom={1}
+                variants={textVariants}
+                className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight text-white"
+              >
+                {slide.title}{" "}
+                <span
+                  className="text-transparent bg-clip-text"
+                  style={{ backgroundImage: `linear-gradient(135deg, ${slide.accent}, #f97316)` }}
+                >
+                  {slide.titleHighlight}
+                </span>
+              </motion.h1>
+
+              {/* Description */}
+              <motion.p
+                custom={2}
+                variants={textVariants}
+                className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed"
+              >
+                {slide.description}
+              </motion.p>
+
+              {/* Badge */}
+              <motion.div custom={3} variants={textVariants}>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/70">
+                  <CheckCircle2 className="w-4 h-4" style={{ color: slide.accent }} />
+                  {slide.badge}
+                </span>
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div custom={4} variants={textVariants} className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  href={slide.cta.href}
+                  className="px-8 py-4 rounded-xl font-bold text-lg text-white transition-all shadow-xl hover:-translate-y-1 flex items-center gap-2"
+                  style={{ background: slide.accent, boxShadow: `0 8px 30px ${slide.accent}55` }}
+                >
+                  {slide.cta.label}
+                  <ArrowLeft className="w-5 h-5" />
+                </Link>
+                <Link
+                  href={slide.cta2.href}
+                  className="px-8 py-4 rounded-xl font-bold text-lg text-white bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-sm transition-all hover:-translate-y-1"
+                >
+                  {slide.cta2.label}
+                </Link>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Slide Counter + Progress */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3">
+        {/* Dots */}
+        <div className="flex gap-2 items-center">
+          {HERO_SLIDES.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => goTo(i, i > current ? 1 : -1)}
+              className="transition-all duration-300 rounded-full"
+              style={{
+                width: i === current ? 28 : 8,
+                height: 8,
+                background: i === current ? slide.accent : "rgba(255,255,255,0.4)",
+              }}
+              aria-label={`الشريحة ${i + 1}`}
+            />
+          ))}
+        </div>
+        {/* Progress Bar */}
+        {!paused && (
+          <div className="w-32 h-0.5 bg-white/20 rounded-full overflow-hidden">
+            <motion.div
+              key={slide.id + "-progress"}
+              className="h-full rounded-full"
+              style={{ background: slide.accent }}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 5.5, ease: "linear" }}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Arrow Controls */}
+      <button
+        onClick={prev}
+        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110"
+        aria-label="السابق"
+      >
+        <ChevronRight className="w-6 h-6 text-white" />
+      </button>
+      <button
+        onClick={next}
+        className="absolute left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110"
+        aria-label="التالي"
+      >
+        <ChevronLeft className="w-6 h-6 text-white" />
+      </button>
+
+      {/* Slide number top-left */}
+      <div className="absolute top-8 left-8 z-20 text-white/50 text-sm font-mono select-none">
+        <span className="text-white font-bold text-lg">{String(current + 1).padStart(2, "0")}</span>
+        <span> / {String(HERO_SLIDES.length).padStart(2, "0")}</span>
+      </div>
+
+      {/* Thumbnail strip - right side (desktop) */}
+      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-20 hidden xl:flex flex-col gap-2">
+        {HERO_SLIDES.map((s, i) => (
+          <button
+            key={s.id}
+            onClick={() => goTo(i, i > current ? 1 : -1)}
+            className={`w-1 rounded-full transition-all duration-300 ${
+              i === current ? "h-10" : "h-4 opacity-40 hover:opacity-70"
+            }`}
+            style={{ background: i === current ? slide.accent : "white" }}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -11,80 +309,8 @@ const fadeIn = {
 export default function Home() {
   return (
     <div>
-      {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 pb-32 overflow-hidden bg-secondary">
-        {/* Background Image / Pattern */}
-        <div className="absolute inset-0 z-0 opacity-20">
-          <img 
-            src={`${import.meta.env.BASE_URL}images/hero-pattern.png`} 
-            alt="Hero Pattern" 
-            className="w-full h-full object-cover mix-blend-overlay"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 to-secondary/40"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={fadeIn}
-              className="text-white space-y-8"
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-sm font-medium text-orange-200">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                الخيار الأول في الأردن
-              </div>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
-                رواد <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-300">التكييف المركزي</span> وأنظمة التهوية
-              </h1>
-              <p className="text-lg md:text-xl text-blue-100 max-w-xl leading-relaxed">
-                في مصنع بيت الأردن، نجمع بين الدقة الهندسية وأعلى معايير الجودة لتنفيذ مشاريع التكييف للقطاعات التجارية والسكنية.
-              </p>
-              
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link href="/booking" className="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-primary/30 hover:-translate-y-1 flex items-center gap-2">
-                  احجز استشارة مجانية
-                  <ArrowLeft className="w-5 h-5" />
-                </Link>
-                <Link href="/services" className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all backdrop-blur-sm hover:-translate-y-1">
-                  تصفح خدماتنا
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Decorative Graphic Element */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden lg:block relative h-[500px]"
-            >
-              {/* industrial HVAC photo */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img 
-                  src="https://pixabay.com/get/g2de986f044a65eea5664406aa0dd0eb76040a19832bfb4bf2c491dec521f62344cb83bed289cb0767fbfce90dee261df42647810997586a1041b1797c5072c12_1280.jpg" 
-                  alt="التكييف المركزي" 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 to-transparent"></div>
-              </div>
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-border">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Factory className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-xl text-foreground">+15 عاماً</p>
-                    <p className="text-sm text-muted-foreground">من الخبرة والتميز</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* HERO SLIDER */}
+      <HeroSlider />
 
       {/* STATS */}
       <section className="relative z-20 -mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
