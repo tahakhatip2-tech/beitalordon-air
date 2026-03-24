@@ -19,7 +19,7 @@ export const COMPANY_INFO = storedData?.company || {
   name: "بيت الأردن للتكييف المركزي",
   address: "دوار الياسمين، عمّان، الأردن",
   hours: "السبت إلى الخميس، 8:00 صباحاً - 6:00 مساءً",
-  phone: "0795215525",
+  phone: "0795011051",
   email: "info@beitalordon.com",
   logo: "/images/site-logo.png",
 };
